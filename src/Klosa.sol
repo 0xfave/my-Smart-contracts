@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import {Ownable2Step} from "@openzeppelin/access/Ownable2Step.sol";
-import {AccessControl} from "@openzeppelin/access/AccessControl.sol";
+import {Ownable2Step} from "lib/openzeppelin-contracts/contracts/access/Ownable2Step.sol";
+import {AccessControl} from "lib/openzeppelin-contracts/contracts/access/AccessControl.sol";
 
 contract Klosa is Ownable2Step, AccessControl {
     bytes32 public constant IS_PRODUCTADMIN = keccak256("IS_PRODUCTADMIN");
@@ -17,6 +17,8 @@ contract Klosa is Ownable2Step, AccessControl {
     mapping(uint256 => Product) private products;
 
     mapping(uint256 => Category) private categories;
+
+    uint256 private productIDMappingLength;
 
     struct Product {
         string productName;
@@ -122,6 +124,8 @@ contract Klosa is Ownable2Step, AccessControl {
 
         // Mark the product name as existing
         productExists[_productName] = true;
+
+        productIDMappingLength++;
 
         emit ProductCreated(_productId, _productName, _price);
     }
@@ -238,5 +242,29 @@ contract Klosa is Ownable2Step, AccessControl {
         payable(owner()).transfer(contractBalance);
 
         emit FundsWithdrawn(contractBalance);
+    }
+
+    function getAllProducts() public view returns (Product[] memory) {
+        uint256 productCount = 0;
+
+        // Count the number of products
+        for (uint256 i = 1; i <= productIDMappingLength; i++) {
+            productCount += productId[i].length;
+        }
+
+        // Initialize an array to store all products
+        Product[] memory allProducts = new Product[](productIDMappingLength);
+
+        // Populate the array with product details
+        uint256 currentIndex = 0;
+        for (uint256 i = 1; i <= productIDMappingLength; i++) {
+            Product[] storage productArray = productId[i];
+            for (uint256 j = 0; j < productArray.length; j++) {
+                allProducts[currentIndex] = productArray[j];
+                currentIndex++;
+            }
+        }
+
+        return allProducts;
     }
 }

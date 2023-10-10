@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import {OwnableRoles} from "solady/auth/OwnableRoles.sol";
+import {OwnableRoles} from "lib/solady/src/auth/OwnableRoles.sol";
 
 /**
  * @title MedicalLabs

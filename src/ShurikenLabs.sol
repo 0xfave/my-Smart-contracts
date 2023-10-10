@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import {Ownable2Step} from "@openzeppelin/access/Ownable2Step.sol";
-import {AccessControl} from "@openzeppelin/access/AccessControl.sol";
+import {Ownable2Step} from "lib/openzeppelin-contracts/contracts/access/Ownable2Step.sol";
+import {AccessControl} from "lib/openzeppelin-contracts/contracts/access/AccessControl.sol";
 
 /**
  * @title ShurikenLabs
