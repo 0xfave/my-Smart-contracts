@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import {Ownable} from "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 
-contract Cipher is Ownable {
+contract RedCha is Ownable {
     address public protocolFeeDestination;
     uint256 public protocolFeePercent;
     uint256 public subjectFeePercent;
@@ -86,5 +86,9 @@ contract Cipher is Ownable {
         (bool success2, ) = protocolFeeDestination.call{value: protocolFee}("");
         (bool success3, ) = coresSubject.call{value: subjectFee}("");
         require(success1 && success2 && success3, "Unable to send funds");
+    }
+
+    function getBalance(address coresSubject) public view returns (uint256) {
+        return coresBalance[coresSubject][msg.sender];
     }
 }
